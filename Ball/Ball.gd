@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var speed = 600
+var speed = 300
 var velocity = Vector2.ZERO
 
 func _ready():
@@ -13,8 +13,15 @@ func _physics_process(delta):
 	if collider:
 		velocity = velocity.bounce(collider.normal)
 		$BounceSound.play()
-		if collider.collider.name == "Player" or collider.collider.name == "Opponent":
-			speed += 75
+		speed += 25
+		if collider.collider.name != "Player":
+			$"../Player".position.x = 48
+		else:
+			speed += 50
+		if collider.collider.name != "Opponent":
+			$"../Opponent".position.x = 976
+		else:
+			speed += 50
 
 func Reset():
 	randomize()

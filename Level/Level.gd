@@ -9,6 +9,8 @@ func Reset():
 	$Ball.speed = 0
 	$Opponent.speed = 0
 	$ScoreSound.play()
+	$Opponent.position.x = 976
+	$Player.position.x = 48
 
 func _on_Left_Bounds_body_entered(body: Node):
 	if body.name == $Ball.name:		
@@ -23,5 +25,5 @@ func _on_Right_Bounds_body_entered(body: Node):
 		Reset()
 
 func _on_Countdown_timeout():
-	$Ball.speed = 600
+	$Ball.speed = 300
 	$Opponent.speed = 450
