@@ -1,16 +1,33 @@
 extends KinematicBody2D
 
-var speed = 400
+var speed = 50
 
 var EdgedUp = false
 var EdgedDown = false
 
+var drag = false
+var original = Vector2.ZERO
+var new = Vector2.ZERO
+
+func _input(event):
+	if event is InputEventScreenTouch:
+		if event.is_pressed():
+			drag = true
+			original = new
+		else:
+			drag = false
+			original = Vector2.ZERO
+	new = event.position
+
 func _physics_process(_delta):	
 	var velocity = Vector2.ZERO
-	if Input.is_action_pressed("ui_up") and not EdgedUp:
-		velocity.y -= 1
-	if Input.is_action_pressed("ui_down") and not EdgedDown:
-		velocity.y += 1
+	if drag:
+		if new.y < original.y and not EdgedUp:
+			velocity.y += (new.y - original.y)
+		if new.y > original.y and not EdgedDown:
+			velocity.y += (new.y - original.y)
+		original = new
+	
 # warning-ignore:return_value_discarded
 	move_and_slide(velocity * speed)	
 
